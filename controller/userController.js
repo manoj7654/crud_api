@@ -28,7 +28,7 @@ const addUser=async(req,res)=>{
 
 
 const getUser=async(req,res)=>{
-    const limit=2
+    const {limit}=req.query
     const {page}=req.query;
     const skip=(page*limit)-limit
 
