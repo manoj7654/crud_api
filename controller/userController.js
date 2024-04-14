@@ -83,4 +83,31 @@ const login=async(req,res)=>{
     }
 }
 
-module.exports={addUser,getUser,editUser,deleteUser,login}
+const getUsersByMonth = async (req, res) => {
+    try {
+        const usersByMonth = await UserModal.aggregate([
+            {
+                $group: {
+                    _id: { $month: "$createdAt" },
+                    count: { $sum: 1 }
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    month: "$_id",
+                    count: 1
+                }
+            },
+            {
+                $sort: { month: 1 }
+            }
+        ]);
+        res.status(200).json(usersByMonth);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+
+module.exports={addUser,getUser,editUser,deleteUser,login,getUsersByMonth}
