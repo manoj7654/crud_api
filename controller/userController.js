@@ -1,6 +1,8 @@
 const {UserModal}=require("../modal/userModal");
 const bcrypt=require("bcrypt");
 const jwt=require("jsonwebtoken")
+const Upload=require("../helper/upload");
+const { UserProfileModal } = require("../modal/userProfileModal");
 require("dotenv").config()
 
 const addUser=async(req,res)=>{
@@ -109,5 +111,17 @@ const getUsersByMonth = async (req, res) => {
     }
 };
 
+const uploadProfile=async(req,res)=>{
+    try {
+        const upload=await Upload.uploadFile(req.file.path);
+        let store=new UserProfileModal({
+            image_url:upload.secure_url
+        });
+       let result= await store.save();
+        res.json({message:"File upload successfull",url:result})
+    } catch (error) {
+        console.log(error.message)
+    }
+}
 
-module.exports={addUser,getUser,editUser,deleteUser,login,getUsersByMonth}
+module.exports={addUser,getUser,editUser,deleteUser,login,getUsersByMonth,uploadProfile}
