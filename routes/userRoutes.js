@@ -14,10 +14,10 @@ const uploader=multer({
 userRouter.post("/add",addUser);
 userRouter.post("/profile",uploader.single("file"),uploadProfile)
 userRouter.post("/login",login)
-userRouter.get("/allData",authenticate,getUser)
+userRouter.get("/allData",getUser)
 userRouter.get("/byMonth",getUsersByMonth)
-userRouter.patch("/edit/:id",authenticate,editUser)
-userRouter.delete("/remove/:id",authenticate,deleteUser)
+userRouter.patch("/edit/:id",editUser)
+userRouter.delete("/remove/:id",deleteUser)
 
 
 module.exports={userRouter}
